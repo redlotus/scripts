@@ -1,0 +1,71 @@
+#!/bin/bash
+#author: doanlv92@gmail.com
+
+set -o nounset                              # Treat unset variables as an error
+usage() { cat <<EOF
+Syntax: fibo [-d] [-c] [number] 
+	fibo [-h]
+Options:
+ -d display fibonacci numbers
+ -c check number is a fibonacci number or not
+ -h show help
+EOF
+}
+
+case $1 in 
+	-d )
+		if [[ $# -lt 2 ]]; then
+			echo "Err: Not enough parameters"
+			exit 0
+		fi
+		if ! [[ "$2" =~ ^[0-9]+$ ]] ; then
+			echo -e "Err: Input is not a integer number";
+			usage
+			exit 1
+		fi
+		fibo1=0
+		fibo2=1
+		counter=1
+		echo "1"
+		while [[ $counter -lt $2 ]]; do
+			let fibo2+=fibo1
+			let fibo1=fibo2-fibo1
+			let counter+=1
+			echo "$fibo2"
+		done;;
+	-c )
+		if [[ $# -lt 2 ]]; then
+			echo "Err: Not enough parameters"
+			exit 0
+		fi
+		if ! [[ "$2" =~ ^[0-9]+$ ]] ; then
+			echo -e "Err: Input is not a integer number"
+			usage
+			exit 1
+		fi
+		fibo1=0
+		fibo2=1
+		check=0
+		counter=0
+		while  [[ $check -eq 0 ]]; do
+			let fibo2+=fibo1
+			let fibo1=fibo2-fibo1
+			if [[ $2 -eq $fibo2 ]]; then 
+				echo "$2 is a fibonacci number"
+				exit 0
+			elif [[ $2 -lt $fibo2 ]]; then
+				let check=1	
+			fi
+		done
+		echo "$2 is not a fibonacci number"
+		;;
+	-h )
+		usage
+		;;
+	* )
+		echo "Invalid option"
+		usage
+		;;
+esac
+
+exit 0
