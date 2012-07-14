@@ -1,0 +1,20 @@
+#!/bin/bash
+echo -n "What is the issue number of the first Full Circle Magazine to
+download? "
+read firstissue
+
+echo ""
+echo -n "What is the issue number of the last Full Circle Magazine to
+download? ( > or = the previous number) "
+read lastissue
+
+cd ~/Desktop  # ~ brings you to the home directory of the user and from
+there I wanted to use my folder 'Desktop'
+
+for a in `seq $firstissue $lastissue`
+    do
+        wget -U Mozilla "http://dl.fullcirclemagazine.org/issue"$a"_en.pdf"
+    done
+
+echo ""
+echo "Complete!"
